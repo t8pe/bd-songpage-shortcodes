@@ -11,48 +11,48 @@ License: GPLv2
 
 
 function bdAlbumShortcode( $slug, $enclosure = null ) {
-  // This structure allows me to insert the PHP bits without my brains oozing out my ears.
-  // Now to figure out how the smeg to get the stuff from the fucking Taxonomy.
-  // Changed from ID to slug b/c that should be easier with the taxonomy.
+
 $albumslug = $slug[0];
 
-$title = get_term_by( 'slug', $albumslug, 'product_cat' ); 
-$term_id = $title->term_id; // THAT RIGHT THERE. That's the ID for the term.
-$tittles = get_term_by( 'term_taxonomy_id', $term_id, 'product_cat' );
-echo $tittles->name; // What I want is the thumbnail though.
-echo $tittles->description;
+$albuminfo = get_term_by( 'slug', $albumslug, 'product_cat' ); 
+//$term_id = $title->term_id; // THAT RIGHT THERE. That's the ID for the term.
+//$album_info = get_term_by( 'term_taxonomy_id', $term_id, 'product_cat' );
+//echo $tittles->name; // What I want is the thumbnail though.
+//echo $tittles->description;
 
-$thumbnail_id = get_woocommerce_term_meta( $term_id, 'thumbnail_id', true );
+$thumbnail_id = get_woocommerce_term_meta( $albuminfo->term_id, 'thumbnail_id', true );
 $image = wp_get_attachment_url( $thumbnail_id );
-echo '<img src="' . $image . '" width="200px" height="200px" />';
+$album_img = '<img src="' . $image . '" width="200px" height="200px" />';
 
-// echo var_dump( $tittles );
-$value .= '<div class="hd-album">';
-$value .= '<div class="hd-album-thumbnail">THUMBNAIL';
-$value .= '</div><div class="hd-album-title">TITLE</div>';
-$value .= '<div class="hd-album-text">TEXT';
-$value .= '</div><div class="hd-buy-alls">';
-$value .= '<div class="hd-buy-all-mp3s">BUY ALL MP3s';
-$value .= '</div><div class="hd-buy-CD">BUY CD';
-$value .= '</div></div>';
+$album_opening = '<div class="hd-album">';
+$album_thumbnail = '<div class="hd-album-thumbnail">';
+$album_title = '</div><div class="hd-album-title"></div>';
+$album_description = '<div class="hd-album-text">';
+$album_buy_alls = '</div><div class="hd-buy-alls">';
+$album_buy_alls_2 = '<div class="hd-buy-all-mp3s">BUY ALL MP3s';
+$album_buy_cd = '</div><div class="hd-buy-CD">BUY CD';
+$album_end = '</div></div>';
 
-return $value . do_shortcode ( $enclosure ) . "</div>";
+return $album_opening . $album_thumbnail . $album_img . $album_title . $albuminfo->name . $album_description . $albuminfo->description . $album_buy_alls . $album_buy_alls_2 . $album_buy_cd . $album_end . do_shortcode ( $enclosure ) . "</div>";
 }
 
 add_shortcode( 'Album', 'bdAlbumShortcode' );
 
 function bdSongShortcode( $songID ) {
   $song = $songID[0];
-  $mp3j_link = '<div class="hd-album-individual-song"><div class="album-song-mp3j">MP3J LINK';
+  $product = new WC_product( $song ); // THIS! This is amazeballs!
+  $mp3j_info = '<div class="hd-album-individual-song"><div class="album-song-mp3j">';
   $song_title = '</div><div class="album-song-title">';
-  $price = '</div><div class="album-song-price">PRICE';
+  $price = '</div><div class="album-song-price"> $';
   //echo get_the_price( $songID );
-  $buy_now = '</div><div class="album-song-buynow">ADD TO CART';
-  $more_info = '</div><div class="album-song-moreinfo"><a href="';
+  $buy_now = '</div><div class="album-song-buynow">';
+  $more_info = '>Buy Now Link</a></div><div class="album-song-moreinfo"><a href="';
   //echo "http://heatherdale.com/song_wiki" . get_the_title( $songID );
   $end_string = 'More Info</a></div></div>';
+  
+  // having trouble with the MP3Jplayer appearing at the top of the page for whatever fucking reason.
 
-  return $mp3j_link . $song_title . get_the_title( $song ) . $price . $buy_now . $more_info . "http://heatherdale.com/song_wiki/" . get_the_title( $song ) . '">' . $end_string;
+  return $mp3j_info . mp3j_put( '[mp3j track="' . get_post_meta( $song, "mp3ee", true ) . '"]' ) . $song_title . get_the_title( $song ) . $price . $product->regular_price . $buy_now . '<a href=' . get_site_url() . '?add-to-cart=' .  $song . $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">' . $end_string;
 }
 
 add_shortcode( 'Song', 'bdSongShortcode' );
