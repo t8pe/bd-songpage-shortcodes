@@ -1,0 +1,57 @@
+/* $album_opening = '<div class="hd-album">'; */
+/* $album_thumbnail = '<div class="hd-album-thumbnail">'; */
+/* $album_title = '</div><div class="hd-album-title"></div>'; */
+/* $album_description = '<div class="hd-album-text">'; */
+/* $album_buy_alls = '</div><div class="hd-buy-alls"><div class="hd-buy-all-mp3s">'; */
+/* $album_buy_cd = '</div><div class="hd-buy-CD">'; */
+/* $album_end = '</div></div> */
+
+/*   $mp3j_info = '<div class="hd-album-individual-song">'; // stripped out <div class="album-song-mp3j"> */
+/*   $song_title = '<div class="album-song-title">'; // stripped out </div>  */
+/*   $price = '</div><div class="album-song-price"> $'; */
+/*   $buy_now = '</div><div class="album-song-buynow">'; */
+/*   $more_info = '>Buy Now Link</a></div><div class="album-song-moreinfo"><a href="'; */
+/*   $end_string = 'More Info</a></div></div>'; */
+
+/* FOR THE ALBUM SHORTCODE, which wraps around the Songs shortcode (most of the time) */
+
+.hd-album {
+background-color: #808080; /* Temporary, to identify where the divs are */
+}
+
+.hd-album-thumbnail {
+}
+
+.hd-album-text {
+}
+
+.hd-album-buy-alls {
+}
+
+.hd-album-buy-all-mp3s {
+}
+
+.hd-album-buy-CD {
+}
+
+.hd-album-title {
+
+}
+
+/* For the SONG shortcode */
+
+.hd-album-individual-song {
+background-color: #ffffff; /* Again temporary */
+}
+
+.hd-album-song-title {
+}
+
+.hd-album-song-price {
+}
+
+.hd-album-song-buynow {
+}
+
+.hd-album-song-moreinfo {
+}
