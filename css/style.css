@@ -1,4 +1,4 @@
-/* $album_opening = '<div class="hd-album">'; */
+/* $album_opening = '<div class="hd-album-container">'; */
 /* $album_thumbnail = '<div class="hd-album-thumbnail">'; */
 /* $album_title = '</div><div class="hd-album-title"></div>'; */
 /* $album_description = '<div class="hd-album-text">'; */
@@ -16,42 +16,76 @@
 /* FOR THE ALBUM SHORTCODE, which wraps around the Songs shortcode (most of the time) */
 
 .hd-album {
-background-color: #808080; /* Temporary, to identify where the divs are */
+height: 150px;
+background-color: #808080;
+}
+.hd-album-container {
+position: relative;
+background-color: #808000; /* Temporary, to identify where the divs are */
 }
 
 .hd-album-thumbnail {
-}
-
-.hd-album-text {
-}
-
-.hd-album-buy-alls {
-}
-
-.hd-album-buy-all-mp3s {
-}
-
-.hd-album-buy-CD {
+float: left;
+top: 0;
+left: 0;
 }
 
 .hd-album-title {
+/* position: relative; */
+/* float: left; */
+}
+
+.hd-album-text {
+/* position: relative; */
+/* float: left; */
+}
+
+.hd-album-buy-alls {
+float: right;
+position: relative;
+bottom: 0;
+right: 0;
+}
+
+.hd-album-buy-all-mp3s {
+float: right;
 
 }
+
+.hd-album-buy-CD {
+float: right;
+
+}
+
+
 
 /* For the SONG shortcode */
 
 .hd-album-individual-song {
+position: relative;
+height: 50px;
 background-color: #ffffff; /* Again temporary */
 }
-
+.bigger2 {
+position: fixed;
+/* float: left; */
+}
+.hd-album-song-mp3j {
+float: right;
+}
 .hd-album-song-title {
+float: left;
+position:relative;
 }
 
 .hd-album-song-price {
+float: right;
 }
 
 .hd-album-song-buynow {
+float: right;
 }
 
 .hd-album-song-moreinfo {
+float: right;
 }

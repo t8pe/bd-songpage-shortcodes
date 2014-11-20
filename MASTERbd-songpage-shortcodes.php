@@ -35,18 +35,17 @@ $image = wp_get_attachment_url( $thumbnail_id );
 $album_img = '<img src="' . $image . '" width="100px" height="100px" />';
 
 // These are the various bits of the return string, chopped into variables. I can do this more elegantly later I think.
-$album_opening = '<div class="hd-album-container"><div class="hd-album">';
+$album_opening = '<div class="hd-album">';
 $album_thumbnail = '<div class="hd-album-thumbnail">';
 $album_title = '</div><div class="hd-album-title">';
 $album_description = '</div><div class="hd-album-text">';
 $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
 $album_buy_cd = '</div><div class="hd-album-buy-CD">';
-$album_end = '</div></div></div>';
+$album_end = '</div></div>';
 
 // This does the real work of returning the shortcode.
-return 
-$album_opening 
-. $album_thumbnail
+return $album_opening 
+. $album_thumbnail 
 . $album_img 
 . $album_title 
 . $albuminfo->name 
@@ -55,7 +54,7 @@ $album_opening
 . $album_buy_alls 
 . $MP3buylink 
 . $album_buy_cd 
-. $CDbuylink
+. $CDbuylink 
 . $album_end 
 . do_shortcode ( $enclosure ) 
 . "</div>";
@@ -70,32 +69,39 @@ function bdSongShortcode( $songID ) {
 
   // This gets all the product info from WooCommerce. And it's amazeballs!
   $product = new WC_product( $song ); 
+
 // These are the various bits of the return string, chopped into variables. I can do this more elegantly later I think.
   $mp3j_info = '<div class="hd-album-individual-song">'; // stripped out <div class="album-song-mp3j">
   $song_title = '<div class="hd-album-song-title">'; // stripped out </div> 
   $price = '</div><div class="hd-album-song-price"> $';
-  $buy_now = '</div><div class="hd-album-song-buynow">Buy Now ';
-  $more_info = '</a></div><div class="hd-album-song-moreinfo"><a href="';
-  $end_string = 'More Info </a></div>'; //removed one /div here.
-
+  $buy_now = '</div><div class="hd-album-song-buynow">';
+  $more_info = '>Buy Now Link</a></div><div class="hd-album-song-moreinfo"><a href="';
+  $end_string = 'More Info</a></div></div>';
+    
 // Still having trouble with the MP3Jplayer appearing at the top of the page for whatever fucking reason. But I can prob float it w CSS.
-// This does the real work of returning the shortcode.
-return
-$mp3j_info
-. do_shortcode('[mp3j track="' . get_post_meta( $song, "mp3ee", true ) . '" title="" ]' )
-. $song_title
-. get_the_title( $song )
-. $price
-. $product->regular_price
-. $more_info
-. get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
-. $buy_now
-. '<a href=' . get_site_url() . '?add-to-cart=' .  $song
-. $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
-. $end_string;
 
+// This does the real work of returning the shortcode.
+  return 
+$mp3j_info 
+.  mp3j_put('[mp3j track="' 
+. get_post_meta( $song, "mp3ee", true ) 
+. '" title="" style="bigger2"]' ) 
+. $song_title 
+. get_the_title( $song ) 
+. $price 
+. $product->regular_price 
+. $buy_now 
+. '<a href=' 
+. get_site_url() 
+. '?add-to-cart=' 
+.  $song 
+. $more_info 
+. get_site_url() 
+. "/song_wiki/" 
+. get_the_title( $song ) 
+. '">' 
+. $end_string;
 }
 
 add_shortcode( 'Song', 'bdSongShortcode' );
-
 ?>
