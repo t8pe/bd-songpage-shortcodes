@@ -67,15 +67,15 @@ height: 50px;
 background-color: #ffffff; /* Again temporary */
 }
 .bigger2 {
-position: fixed;
+/* position: fixed; */
 /* float: left; */
 }
+
 .hd-album-song-mp3j {
-float: right;
+float: left;
 }
 .hd-album-song-title {
 float: left;
-position:relative;
 }
 
 .hd-album-song-price {
