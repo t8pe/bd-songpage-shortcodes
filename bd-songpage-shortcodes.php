@@ -35,7 +35,7 @@ $image = wp_get_attachment_url( $thumbnail_id );
 $album_img = '<img src="' . $image . '" width="100px" height="100px" />';
 
 // These are the various bits of the return string, chopped into variables. I can do this more elegantly later I think.
-$album_opening = '<div class="hd-album-container woocommerce woocommerce-page"><div class="hd-album">'; //put in the ID to try getting the woo.
+$album_opening = '<div class="hd-album-container woocommerce woocommerce-page"><div class="hd-album">'; 
 $album_thumbnail = '<div class="hd-album-thumbnail">';
 $album_title = '</div><div class="hd-album-title">';
 $album_description = '</div><div class="hd-album-text">';
@@ -75,8 +75,8 @@ function bdSongShortcode( $songID ) {
   $song_title = '</div><div class="hd-album-song-title">';  
   $price = '</div><div class="hd-album-song-price"> $';
   $buy_now = '</div><div class="hd-album-song-buynow">';
-  $more_info = '</div><div class="hd-album-song-moreinfo"><a href="'; // Buy Now</a>
-  $end_string = 'More Info </a></div>'; //removed one /div here.
+  $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
+  $end_string = 'More Info </a></div>'; 
   $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '">Buy Me</a>';
 // This does the real work of returning the shortcode.
 return
@@ -87,13 +87,9 @@ $mp3j_info
 . $price
 . $product->regular_price
 . $buy_now
-  //. '<form class="cart" enctype="multipart/form-data" method="post"><input type="hidden" value="' . $product->id . '" name="add-to-cart"></input><a href class="single_add_to_cart_button button alt" type="submit">Add to cart</a></form>' // add to cart link wasn't working
 . $buylink
- 
-//. '<a href=' . get_site_url() . '?add-to-cart=' .  $song . '>'
-. $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
+ . $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
 . $end_string;
-  // return var_dump( $product );
 }
 
 add_shortcode( 'Song', 'bdSongShortcode' );
