@@ -76,7 +76,7 @@ function bdSongShortcode( $songID ) {
   $price = '</div><div class="hd-album-song-price"> $';
   $buy_now = '</div><div class="hd-album-song-buynow">';
   $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
-  $end_string = 'More Info </a></div>'; 
+  $end_string = 'More Info </a></div></div>';  // Was missing a </div> here - which cascaded on HD.com
   $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '">Buy Me</a>';
 // This does the real work of returning the shortcode.
 return
@@ -88,7 +88,7 @@ $mp3j_info
 . $product->regular_price
 . $buy_now
 . $buylink
- . $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
+. $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
 . $end_string;
 }
 
