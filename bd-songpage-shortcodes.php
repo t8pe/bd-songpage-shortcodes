@@ -3,7 +3,7 @@
 Plugin Name: Ben's Song-Page Shortcodes
 Plugin URI: http://bendeschamps.com
 Description: Plugin to enable Album & Song shortcodes in WordPress without Woo stupidity
-Version: 0.1
+Version: 0.2
 Author: Ben Deschamps
 Author URI: http://bendeschamps.com
 License: GPLv2
@@ -28,7 +28,6 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
  
 // These extract the IDs of the products in question & construct buy-now links for them.
   $getCD = get_page_by_title( $albuminfo->name . " (physical CD)", OBJECT, 'product' );
-
   $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '">Buy CD</a>';
 
   $getMP3 = get_page_by_title( $albuminfo->name . " (Full Album Download)", OBJECT, 'product' );
@@ -47,13 +46,11 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
   $album_end = '</div></div></div>';
-  $notices = wc_print_notices();
 
 
 // This does the real work of returning the shortcode.
 return 
 $album_opening 
-. $notices
 . $album_thumbnail
 . $album_img 
 . $album_title 
@@ -76,7 +73,6 @@ add_shortcode( 'Album', 'bdAlbumShortcode' );
 function bdSongShortcode( $songID ) {
   // Again, extracting the ID from the array returned by $songID
   $song = $songID[0];
-global $woocommerce;
   // This gets all the product info from WooCommerce. And it's amazeballs!
   $product = new WC_product( $song ); 
 
