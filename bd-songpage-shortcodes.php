@@ -46,7 +46,7 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
   $album_end = '</div></div></div>';
-
+  $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
 // This does the real work of returning the shortcode.
 return 
@@ -56,7 +56,8 @@ $album_opening
 . $album_title 
 . $albuminfo->name 
 . $album_description 
-. $albuminfo->description 
+. $lorem  
+//. $albuminfo->description 
 . $album_buy_alls 
 . $MP3buylink 
 . $album_buy_cd 

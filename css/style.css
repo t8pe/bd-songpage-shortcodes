@@ -1,6 +1,8 @@
 /* FOR THE ALBUM SHORTCODE, which wraps around the Songs shortcode (most of the time) */
 
+
 .hd-album {
+font-size: large;
 height: 150px;
 /* background-color: #808080; */
 }
@@ -47,6 +49,7 @@ float: right;
 /* For the SONG shortcode */
 
 .hd-album-individual-song {
+font-size: medium;
 position: relative;
 height: 50px;
 background-color: #ffffff; /* Again temporary */
