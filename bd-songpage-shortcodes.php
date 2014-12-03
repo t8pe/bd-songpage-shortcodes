@@ -19,33 +19,52 @@ function bd_songpage_scripts() {
 
 add_action( 'wp_enqueue_scripts', 'bd_songpage_scripts' );
 
-
+/************************************************************************/
+// This sets up the icons in a convenient place!
+$cart_icon = 'ic_shopping_cart_black_25dp.png';
+$mag_icon = 'ic_info_outline_black_25dp.png' ;
+$buy_CD_icon = 'BUTTON-BuyCD-80x27.png';
+$buy_MP3_icon = 'BUTTON-BuyAllMP3-129x27.png';
+$icon_path = plugins_url( 'images/', __FILE__ );
+/************************************************************************/
 
 function bdAlbumShortcode( $slug, $enclosure = null ) {
+
+/************************************************************************/
+  global $icon_path, $buy_CD_icon, $buy_MP3_icon;
+/************************************************************************/
 
   $albumslug = $slug[0]; // because $slug is an array not an object
   $albuminfo = get_term_by( 'slug', $albumslug, 'product_cat' ); 
  
 // These extract the IDs of the products in question & construct buy-now links for them.
   $getCD = get_page_by_title( $albuminfo->name . " (physical CD)", OBJECT, 'product' );
-  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '">Buy CD</a>';
+
+/************************************************************************/
+  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . $icon_path . $buy_CD_icon . '" /></a>';
+/************************************************************************/
 
   $getMP3 = get_page_by_title( $albuminfo->name . " (Full Album Download)", OBJECT, 'product' );
-  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '">Buy All MP3s</a>';
+
+/************************************************************************/
+  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . $icon_path . $buy_MP3_icon . '" /></a>';
+/************************************************************************/
 
 // This sets up the thumbnail. I can change the size of it as desired.
   $thumbnail_id = get_woocommerce_term_meta( $albuminfo->term_id, 'thumbnail_id', true );
   $image = wp_get_attachment_url( $thumbnail_id );
-  $album_img = '<img src="' . $image . '" width="100px" height="100px" />';
+  $album_img = '<img src="' . $image . '" width="140px" height="140px" />';
 
 // These are the various bits of the return string, chopped into variables.
-  $album_opening = '<div class="hd-album-container woocommerce woocommerce-page"><div class="hd-album">'; 
+  $album_opening = '<div class="hd-album-container"><div class="hd-album">'; 
   $album_thumbnail = '<div class="hd-album-thumbnail">';
   $album_title = '</div><div class="hd-album-title">';
   $album_description = '</div><div class="hd-album-text">';
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
-  $album_end = '</div></div></div>';
+  $album_more_info = '</div><div class="hd-album-moreinfo"><a href="';
+  $album_more_info_close = '<img src="' . $icon_path . $mag_icon . '" /></a>';
+  $album_end = '</div></div></div><ul class="songlist">';
   $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
 // This does the real work of returning the shortcode.
@@ -57,6 +76,9 @@ $album_opening
 . $albuminfo->name 
 . $album_description 
 . $lorem  
+  //. $album_more_info
+  //. $album_more_info . get_site_url() . "/album_wiki/#" . $albuminfo->slug . '">'
+  //. $album_more_info_close
 //. $albuminfo->description 
 . $album_buy_alls 
 . $MP3buylink 
@@ -64,7 +86,7 @@ $album_opening
 . $CDbuylink
 . $album_end 
 . do_shortcode ( $enclosure ) 
-. "</div>";
+. "</ul></div>";
  
 }
 
@@ -72,19 +94,27 @@ add_shortcode( 'Album', 'bdAlbumShortcode' );
 
 
 function bdSongShortcode( $songID ) {
+
+/************************************************************************/
+  global $icon_path, $cart_icon, $mag_icon;
+/************************************************************************/
+
   // Again, extracting the ID from the array returned by $songID
   $song = $songID[0];
   // This gets all the product info from WooCommerce. And it's amazeballs!
   $product = new WC_product( $song ); 
 
   // These are the various bits of the return string, chopped into variables.
-  $mp3j_info = '<div class="hd-album-individual-song"><div class="hd-album-song-mp3j">'; 
+  $mp3j_info = '<li class="song"><div class="hd-album-individual-song"><div class="hd-album-song-mp3j">'; 
   $song_title = '</div><div class="hd-album-song-title">';  
   $price = '</div><div class="hd-album-song-price"> $';
   $buy_now = '</div><div class="hd-album-song-buynow">';
   $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
-  $end_string = 'More Info </a></div></div>';  
-  $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '">Buy It!</a>';
+
+/************************************************************************/
+  $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '"><img src="' . $icon_path . $cart_icon . '" /></a>';
+  $end_string = '<img src="' . $icon_path . $mag_icon . '" /></a></div></div></li>';  
+/************************************************************************/
 
 // This does the real work of returning the shortcode.
 
@@ -97,7 +127,7 @@ $mp3j_info
 . $product->regular_price
 . $buy_now   
 . $buylink
-. $more_info . get_site_url() . "/song_wiki/" . get_the_title( $song ) . '">'
+. $more_info . get_site_url() . "/song_wiki/#" . get_the_title( $song ) . '">'
 . $end_string;
 
 }

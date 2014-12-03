@@ -2,12 +2,12 @@
 
 
 .hd-album {
-font-size: large;
 height: 150px;
 /* background-color: #808080; */
 }
 .hd-album-container {
 position: relative;
+font-size: medium;
 /* background-color: #808000; */ /* Temporary, to identify where the divs are */
 }
 
@@ -15,16 +15,19 @@ position: relative;
 float: left;
 top: 0;
 left: 0;
+padding-right: 7px;
 }
 
 .hd-album-title {
 /* position: relative; */
 /* float: left; */
+font-size: x-large;
 }
 
 .hd-album-text {
 /* position: relative; */
 /* float: left; */
+padding: 7px;
 }
 
 .hd-album-buy-alls {
@@ -48,11 +51,20 @@ float: right;
 
 /* For the SONG shortcode */
 
+ul.songlist {
+list-style-type: none;
+}
+
+li.song:nth-of-type(even) {
+   background-color: #dfdfdf;
+}
+
 .hd-album-individual-song {
 font-size: medium;
 position: relative;
-height: 50px;
-background-color: #ffffff; /* Again temporary */
+height: 29px;
+clear: both;
+/* background-color: #000; */ /* Again temporary */
 }
 .bigger2 {
 /* position: fixed; */
@@ -64,14 +76,18 @@ float: left;
 }
 .hd-album-song-title {
 float: left;
+font-weight: bold;
+line-height: 29px;
 }
 
 .hd-album-song-price {
 float: right;
+line-height: 29px;
 }
 
 .hd-album-song-buynow {
 float: right;
+padding-right: 12px;
 }
 
 .hd-album-song-moreinfo {
