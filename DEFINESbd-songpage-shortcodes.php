@@ -70,12 +70,14 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
   $album_description = '</div><div class="hd-album-text">';
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
-  $album_more_info = '</div><div class="hd-album-moreinfo"><a href="' . get_site_url() . '/album_wiki/#' . $albuminfo->slug . '"><img src="' . ICON_PATH . INFO_ICON . '" /></a>';
+  $album_more_info = '</div><div class="hd-album-moreinfo"><a href="' . get_site_url() . '/album_wiki/#' . $albuminfo->slug . '"><img src="' . plugins_url( 'images/', __FILE__ ) . '/ic_info_outline_black_25dp.png' . '" /></a>';
   $album_end = '</div></div></div><ul class="songlist">';
   $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
 // This does the real work of returning the shortcode.
-return 
+  return plugins_url( 'images/', __FILE__ );
+
+//return 
 $album_opening 
 . $album_thumbnail
 . $album_img 

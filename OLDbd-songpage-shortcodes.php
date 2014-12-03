@@ -20,26 +20,17 @@ function bd_songpage_scripts() {
 add_action( 'wp_enqueue_scripts', 'bd_songpage_scripts' );
 
 // This sets up the icons in a convenient place!
-
-define ( 'CART_ICON', 'ic_shopping_cart_black_25dp.png' );
-define ( 'INFO_ICON', 'ic_info_outline_black_25dp.png' );
-define ( 'BUY_CD_ICON', 'BUTTON-BuyCD-80x27.png');
-define ( 'BUY_MP3_ICON', 'BUTTON-BuyAllMP3-129x27.png');
-define ( 'ICON_PATH', plugins_url( 'images/', __FILE__ ));
-
-/*
 $cart_icon = 'ic_shopping_cart_black_25dp.png';
 $mag_icon = 'ic_info_outline_black_25dp.png' ;
 $buy_CD_icon = 'BUTTON-BuyCD-80x27.png';
 $buy_MP3_icon = 'BUTTON-BuyAllMP3-129x27.png';
 $icon_path = plugins_url( 'images/', __FILE__ );
-*/
 /************************************************************************/
 
 function bdAlbumShortcode( $slug, $enclosure = null ) {
 
 /************************************************************************/
-  //global $icon_path, $buy_CD_icon, $buy_MP3_icon, $mag_icon;
+  global $icon_path, $buy_CD_icon, $buy_MP3_icon, $mag_icon;
 /************************************************************************/
 
   $albumslug = $slug[0]; // because $slug is an array not an object
@@ -49,13 +40,13 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
   $getCD = get_page_by_title( $albuminfo->name . " (physical CD)", OBJECT, 'product' );
 
 /************************************************************************/
-  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . ICON_PATH . BUY_CD_ICON . '" /></a>';
+  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . $icon_path . $buy_CD_icon . '" /></a>';
 /************************************************************************/
 
   $getMP3 = get_page_by_title( $albuminfo->name . " (Full Album Download)", OBJECT, 'product' );
 
 /************************************************************************/
-  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . ICON_PATH . BUY_MP3_ICON . '" /></a>';
+  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . $icon_path . $buy_MP3_icon . '" /></a>';
 /************************************************************************/
 
 // This sets up the thumbnail. I can change the size of it as desired.
@@ -70,7 +61,7 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
   $album_description = '</div><div class="hd-album-text">';
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
-  $album_more_info = '</div><div class="hd-album-moreinfo"><a href="' . get_site_url() . '/album_wiki/#' . $albuminfo->slug . '"><img src="' . ICON_PATH . INFO_ICON . '" /></a>';
+  $album_more_info = '</div><div class="hd-album-moreinfo"><a href="' . get_site_url() . '/album_wiki/#' . $albuminfo->slug . '"><img src="' . $icon_path . $mag_icon . '" /></a>';
   $album_end = '</div></div></div><ul class="songlist">';
   $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
 
@@ -102,7 +93,7 @@ add_shortcode( 'Album', 'bdAlbumShortcode' );
 function bdSongShortcode( $songID ) {
 
 /************************************************************************/
-  //global $icon_path, $cart_icon, $mag_icon;
+  global $icon_path, $cart_icon, $mag_icon;
 /************************************************************************/
 
   // Again, extracting the ID from the array returned by $songID
@@ -118,8 +109,8 @@ function bdSongShortcode( $songID ) {
   $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
 
 /************************************************************************/
-  $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '"><img src="' . ICON_PATH . CART_ICON . '" /></a>';
-  $end_string = '<img src="' . ICON_PATH . INFO_ICON . '" /></a></div></div></li>';  
+  $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '"><img src="' . $icon_path . $cart_icon . '" /></a>';
+  $end_string = '<img src="' . $icon_path . $mag_icon . '" /></a></div></div></li>';  
 /************************************************************************/
 
 // This does the real work of returning the shortcode.
