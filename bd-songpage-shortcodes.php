@@ -27,36 +27,17 @@ define ( 'BUY_CD_ICON', 'BUTTON-BuyCD-80x27.png');
 define ( 'BUY_MP3_ICON', 'BUTTON-BuyAllMP3-129x27.png');
 define ( 'ICON_PATH', plugins_url( 'images/', __FILE__ ));
 
-/*
-$cart_icon = 'ic_shopping_cart_black_25dp.png';
-$mag_icon = 'ic_info_outline_black_25dp.png' ;
-$buy_CD_icon = 'BUTTON-BuyCD-80x27.png';
-$buy_MP3_icon = 'BUTTON-BuyAllMP3-129x27.png';
-$icon_path = plugins_url( 'images/', __FILE__ );
-*/
-/************************************************************************/
-
 function bdAlbumShortcode( $slug, $enclosure = null ) {
-
-/************************************************************************/
-  //global $icon_path, $buy_CD_icon, $buy_MP3_icon, $mag_icon;
-/************************************************************************/
 
   $albumslug = $slug[0]; // because $slug is an array not an object
   $albuminfo = get_term_by( 'slug', $albumslug, 'product_cat' ); 
  
 // These extract the IDs of the products in question & construct buy-now links for them.
   $getCD = get_page_by_title( $albuminfo->name . " (physical CD)", OBJECT, 'product' );
-
-/************************************************************************/
   $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . ICON_PATH . BUY_CD_ICON . '" /></a>';
-/************************************************************************/
 
   $getMP3 = get_page_by_title( $albuminfo->name . " (Full Album Download)", OBJECT, 'product' );
-
-/************************************************************************/
   $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . ICON_PATH . BUY_MP3_ICON . '" /></a>';
-/************************************************************************/
 
 // This sets up the thumbnail. I can change the size of it as desired.
   $thumbnail_id = get_woocommerce_term_meta( $albuminfo->term_id, 'thumbnail_id', true );
@@ -101,13 +82,8 @@ add_shortcode( 'Album', 'bdAlbumShortcode' );
 
 function bdSongShortcode( $songID ) {
 
-/************************************************************************/
-  //global $icon_path, $cart_icon, $mag_icon;
-/************************************************************************/
-
   // Again, extracting the ID from the array returned by $songID
   $song = $songID[0];
-  // This gets all the product info from WooCommerce. And it's amazeballs!
   $product = new WC_product( $song ); 
 
   // These are the various bits of the return string, chopped into variables.
@@ -116,11 +92,8 @@ function bdSongShortcode( $songID ) {
   $price = '</div><div class="hd-album-song-price"> $';
   $buy_now = '</div><div class="hd-album-song-buynow">';
   $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
-
-/************************************************************************/
   $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '"><img src="' . ICON_PATH . CART_ICON . '" /></a>';
   $end_string = '<img src="' . ICON_PATH . INFO_ICON . '" /></a></div></div></li>';  
-/************************************************************************/
 
 // This does the real work of returning the shortcode.
 
