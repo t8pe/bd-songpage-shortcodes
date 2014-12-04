@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 function bd_songpage_scripts() {
 	wp_enqueue_style( 'bd-songpage-css', plugins_url( 'bd-songpage-shortcodes/css/style.css' ) );
+	wp_enqueue_script( 'bd-hidey', plugins_url( 'bd-songpage-shortcodes/js/hidey.js' ) );
 }
 
 add_action( 'wp_enqueue_scripts', 'bd_songpage_scripts' );
@@ -26,6 +27,7 @@ define ( 'INFO_ICON', 'ic_info_outline_black_25dp.png' );
 define ( 'BUY_CD_ICON', 'BUTTON-BuyCD-80x27.png');
 define ( 'BUY_MP3_ICON', 'BUTTON-BuyAllMP3-129x27.png');
 define ( 'ICON_PATH', plugins_url( 'images/', __FILE__ ));
+
 
 function bdAlbumShortcode( $slug, $enclosure = null ) {
 
@@ -47,13 +49,14 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
 // These are the various bits of the return string, chopped into variables.
   $album_opening = '<div class="hd-album-container"><div class="hd-album">'; 
   $album_thumbnail = '<div class="hd-album-thumbnail">';
-  $album_title = '</div><div class="hd-album-title">';
-  $album_description = '</div><div class="hd-album-text">';
+  $album_title = '</div><div class="hd-album-title"><a href="javascript:hideshow(document.getElementById(\'hidey-' . $albuminfo->name . '\'))">' . $albuminfo->name . '</a>';
+  $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';  
+$album_description = '<div id="hidey-' . $albuminfo->name . '" style="display: none">' . $lorem  . $lorem . $lorem . '</div></div><div class="hd-album-text">'; 
   $album_buy_alls = '</div><div class="hd-album-buy-alls"><div class="hd-album-buy-all-mp3s">';
   $album_buy_cd = '</div><div class="hd-album-buy-CD">';
   $album_more_info = '</div><div class="hd-album-moreinfo"><a href="' . get_site_url() . '/album_wiki/#' . $albuminfo->slug . '"><img src="' . ICON_PATH . INFO_ICON . '" /></a>';
   $album_end = '</div></div></div><ul class="songlist">';
-  $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+
 
 // This does the real work of returning the shortcode.
 return 
@@ -61,13 +64,9 @@ $album_opening
 . $album_thumbnail
 . $album_img 
 . $album_title 
-. $albuminfo->name 
 . $album_description 
-. $lorem  
-
-//. $albuminfo->description 
+  //. $lorem   
 . $album_buy_alls 
-  //. $album_more_info
 . $MP3buylink 
 . $album_buy_cd 
 . $CDbuylink
@@ -94,21 +93,26 @@ function bdSongShortcode( $songID ) {
   $more_info = '</div><div class="hd-album-song-moreinfo"><a href="';
   $buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $product->id . '"><img src="' . ICON_PATH . CART_ICON . '" /></a>';
   $end_string = '<img src="' . ICON_PATH . INFO_ICON . '" /></a></div></div></li>';  
-
+ 
+  if ( get_post_meta( $product->id, 'lyrics', true ) ) {
+    $lyrics = '  <a href="javascript:hideshow(document.getElementById(\'hidey-' . $product->id . '\'))">(lyrics)</a><div class="hd-album-song-lyrics" style="display:none" id="hidey-' . $product->id . '">' . get_post_meta( $product->id, 'lyrics', true ) . '</div>';
+    } else {
+      $lyrics = '';
+    }
+   
 // This does the real work of returning the shortcode.
 
 return
 $mp3j_info
 . do_shortcode('[mp3j track="' . get_post_meta( $song, "mp3ee", true ) . '" title=""  ]' )
-. $song_title
-. get_the_title( $song )
+. $song_title 
+. get_the_title( $song )  
+. $lyrics
 . $price
 . $product->regular_price
 . $buy_now   
 . $buylink
-. $more_info . get_site_url() . "/song_wiki/#" . get_the_title( $song ) . '">'
-. $end_string;
-
+. '</div></div></li>';
 }
 
 add_shortcode( 'Song', 'bdSongShortcode' );
