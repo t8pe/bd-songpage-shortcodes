@@ -93,3 +93,50 @@ padding-right: 12px;
 .hd-album-song-moreinfo {
 float: right;
 }
+
+/* For the MERCH shortcode */
+
+
+
+.hd-merch {
+height: 150px;
+/* background-color: #808080; */
+}
+.hd-merch-container {
+position: relative;
+font-size: medium;
+/* background-color: #808000; */ /* Temporary, to identify where the divs are */
+}
+
+.hd-merch-thumbnail {
+float: left;
+top: 0;
+left: 0;
+padding-right: 7px;
+}
+
+.hd-merch-title {
+/* position: relative; */
+/* float: left; */
+font-size: x-large;
+}
+
+.hd-merch-text {
+/* position: relative; */
+/* float: left; */
+padding: 7px;
+}
+
+.hd-merch-price {
+float: right;
+line-height: 29px;
+}
+
+.hd-merch-buynow {
+float: right;
+padding-right: 12px;
+}
+
+.hd-merch-moreinfo {
+float: right;
+}
