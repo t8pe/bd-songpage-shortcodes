@@ -27,6 +27,7 @@ define ( 'BUY_CD_ICON', 'BUTTON-BuyCD-80x27.png');
 define ( 'BUY_MP3_ICON', 'BUTTON-BuyAllMP3-129x27.png');
 define ( 'ICON_PATH', plugins_url( 'images/', __FILE__ ));
 
+// ALBUM SHORTCODE //
 function bdAlbumShortcode( $slug, $enclosure = null ) {
 
   $albumslug = $slug[0]; // because $slug is an array not an object
@@ -78,6 +79,57 @@ $album_opening
 }
 
 add_shortcode( 'Album', 'bdAlbumShortcode' );
+
+// MERCH SHORTCODE //
+function bdMerchShortcode( $slug, $enclosure = null ) {
+
+  $merchslug = $slug[0]; // because $slug is an array not an object
+  $merchinfo = get_term_by( 'slug', $merchslug, 'product_cat' ); 
+ 
+// These extract the IDs of the products in question & construct buy-now links for them.
+  $getMerch = get_page_by_title( $merchinfo->name .  OBJECT, 'product' ); // took out " (physical CD)"
+  $merchbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMerch->ID . '"> <img src="' . ICON_PATH . BUY_MERCH_ICON . '" /></a>';
+
+// This sets up the thumbnail. I can change the size of it as desired.
+  $thumbnail_id = get_woocommerce_term_meta( $merchinfo->term_id, 'thumbnail_id', true );
+  $image = wp_get_attachment_url( $thumbnail_id );
+  $merch_img = '<img src="' . $image . '" width="140px" height="140px" />';
+
+// These are the various bits of the return string, chopped into variables.
+  $merch_opening = '<div class="hd-merch-container"><div class="hd-merch">'; 
+  $merch_thumbnail = '<div class="hd-merch-thumbnail">';
+  $merch_title = '</div><div class="hd-merch-title">';
+  $merch_description = '</div><div class="hd-merch-text">';
+  $merch_buy_alls = '</div><div class="hd-merch-buy-alls"><div class="hd-merch-buy-all-mp3s">';
+  $merch_buy_cd = '</div><div class="hd-merch-buy-merch">';
+  $merch_more_info = '</div><div class="hd-merch-moreinfo"><a href="' . get_site_url() . '/merch_wiki/#' . $merchinfo->slug . '"><img src="' . ICON_PATH . INFO_ICON . '" /></a>';
+  $merch_end = '</div></div></div><ul class="songlist">';
+  $lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+
+// This does the real work of returning the shortcode.
+return 
+$merch_opening 
+. $merch_thumbnail
+. $merch_img 
+. $merch_title 
+. $merchinfo->name 
+. $merch_description 
+. $lorem  
+
+//. $merchinfo->description 
+. $merch_buy_alls 
+. $merch_more_info
+  //. $MP3buylink 
+  //. $merch_buy_cd 
+. $merchbuylink
+. $merch_end 
+. do_shortcode ( $enclosure ) 
+. "</ul></div>";
+ 
+}
+
+add_shortcode( 'Merch', 'bdMerchShortcode' );
+
 
 
 function bdSongShortcode( $songID ) {
