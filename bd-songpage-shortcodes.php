@@ -35,11 +35,14 @@ function bdAlbumShortcode( $slug, $enclosure = null ) {
  
 // These extract the IDs of the products in question & construct buy-now links for them.
   $getCD = get_page_by_title( $albuminfo->name . " (physical CD)", OBJECT, 'product' );
-  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . ICON_PATH . BUY_CD_ICON . '" /></a>';
+  $CDbuylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getCD->ID . '"> <img src="' . ICON_PATH . BUY_CD_ICON . '" /></a>$';
 
   $getMP3 = get_page_by_title( $albuminfo->name . " (Full Album Download)", OBJECT, 'product' );
-  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . ICON_PATH . BUY_MP3_ICON . '" /></a>';
+  $MP3buylink = '<a href="' . get_site_url() . '?add-to-cart=' . $getMP3->ID . '"> <img src="' . ICON_PATH . BUY_MP3_ICON . '" /></a>$';
 
+  $CDproduct = new WC_product( $getCD->ID );
+  $MP3product = new WC_product( $getMP3->ID );
+  
 // This sets up the thumbnail. I can change the size of it as desired.
   $thumbnail_id = get_woocommerce_term_meta( $albuminfo->term_id, 'thumbnail_id', true );
   $image = wp_get_attachment_url( $thumbnail_id );
@@ -69,9 +72,11 @@ $album_opening
 //. $albuminfo->description 
 . $album_buy_alls 
 . $album_more_info
-. $MP3buylink 
+. $MP3buylink
+. $MP3product->regular_price
 . $album_buy_cd 
 . $CDbuylink
+. $CDproduct->regular_price
 . $album_end 
 . do_shortcode ( $enclosure ) 
 . "</ul></div>";
